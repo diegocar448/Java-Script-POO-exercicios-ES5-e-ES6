@@ -1,46 +1,58 @@
-//ES6 Herança
+class Conta{
+    constructor(numero, titular){
+        this.numero = numero
+        this.titular = titular
 
-class Pessoa{
-    constructor(name, lastName){
-        this.name = name
-        this.lastName = lastName
+        this.saldo = 0
     }
 
-    showInfo(){
-        return `${this.name} ${this.lastName}`
+
+    deposita(valor){
+        this.saldo += valor
+    }
+
+    saque(valor) {
+        if(this.saldo > 0 && this.saldo >= valor)
+            this.saldo -= valor
+        else
+            console.log(`Saque não permitido, saldo atual ${this.saldo}, valor de tentativa de saque: ${valor}`)
+    }
+
+    getSaldo(){
+        return this.saldo
+    }
+
+
+}
+
+
+class ContaCorrente extends Conta{
+    constructor(titular, numero){
+        super(numero, titular)
+    }
+
+    deposita(valor) {
+        this.saldo += (valor - 4)
     }
 }
 
-class Pfis extends Pessoa {
-    constructor(name, lastName, cpf){
-        super(name, lastName)
-
-        this.cpf = cpf
+class ContaPoupanca extends Conta{
+    constructor(titular, numero){
+        super(numero, titular)
     }
 }
 
-let diego = new Pfis('Diego', 'Cardoso', 545454545)
-console.log(diego.showInfo())
 
-class Pjur extends Pessoa {
-    constructor(name, lastName){
-        super(name, lastName)        
-    }
-
-    setCnpj(cnpj){
-        this.cnpj = cnpj
-    }
-
-    getCnpj(){
-        return this.cnpj
-    }
-}
-
-let especializati = new Pjur('Especializa', 'Ti')
-console.log(especializati.showInfo() )
-//console.log(especializati.getCnpj())
-especializati.setCnpj(123123123)
-console.log(especializati.getCnpj())
+let diego = new ContaCorrente('Diego', 123123231)
+console.log(diego.getSaldo())
+diego.deposita(100)
+diego.saque(50)
+diego.deposita(100)
+console.log(diego.getSaldo())
 
 
+let outro = new ContaPoupanca('Outro', 12121222)
+console.log(outro.getSaldo())
+outro.deposita(100)
+console.log(outro.getSaldo())
 
